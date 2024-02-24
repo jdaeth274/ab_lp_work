@@ -1,0 +1,26 @@
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=48:00:00
+
+set -e 
+module load anaconda3/personal
+
+source activate gubbins2_env
+
+cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs
+
+if [ -d raxml_multicore_gc2 ]
+then 
+	rm -r raxml_multicore_gc2
+	mkdir raxml_multicore_gc2
+else
+	mkdir raxml_multicore_gc2
+fi
+
+cd raxml_multicore_gc2
+run_gubbins.py --prefix gc2_gubbins --use-time-stamp --threads 8 \
+--verbose --tree-builder raxml --first-tree-builder iqtree --mar --model JC \
+../gc2_ska_aln.aln 
+
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

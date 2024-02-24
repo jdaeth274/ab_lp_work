@@ -1,0 +1,18 @@
+#PBS -l select=1:ncpus=1:mem=24gb
+#PBS -l walltime=48:00:00
+
+set -e 
+
+module load anaconda3/personal
+
+source activate ska_runs
+
+cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_splits/
+
+ska map -c -o gc2_5092_ska_aln -m -r ../GCA_001573125.1_ASM157312v1_genomic.fna *.skf
+
+echo "#########################################################################"
+echo ""
+echo "                                   DONE                                  "
+echo ""
+echo "#########################################################################"

@@ -1,0 +1,30 @@
+#PBS -l select=1:ncpus=8:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -J 1-5
+
+set -e
+
+module load anaconda3/personal
+
+source activate gubbins_sim
+
+cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gubb_3.2.1_runs 
+
+CLADE=$PBS_ARRAY_INDEX
+
+if [ $CLADE -eq 1 ]
+then
+	cd "gc1_gubbins_3.2.1_ft_rax"
+	OUT_NAME="gc1_gubbins_classified_snps.csv"
+else
+	CLADE_NUM=$(( CLADE + 1 ))
+	cd "clade_${CLADE_NUM}_gubbins_res_jar_3.2.1"
+	OUT_NAME="clade_${CLADE_NUM}_gubbins_classified_snps.csv"
+fi
+
+Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
+--reccy-gff *.recombination_predictions.gff \
+--branch-base *embl_csv.csv --threads 8 \
+--out $OUT_NAME
+
+

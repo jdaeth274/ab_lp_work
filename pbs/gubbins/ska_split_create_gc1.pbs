@@ -1,0 +1,19 @@
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l walltime=12:00:00
+
+module load anaconda3/personal
+
+source activate ska_runs
+
+
+cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc1_split
+
+cat ../gc1_acba_rds_locs.txt | while read line
+do
+PREFIX=$(basename $line | sed 's/\..*$//g') && \
+ska fasta -c -o "${PREFIX}_split_kmer" $line;
+echo "Done on fasta $PREFIX"
+done
+
+
+

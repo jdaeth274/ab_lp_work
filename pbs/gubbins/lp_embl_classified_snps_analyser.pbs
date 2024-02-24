@@ -1,0 +1,49 @@
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=24:00:00
+#PBS -J 1-3
+
+START=$SECONDS
+
+set -e 
+
+module load anaconda3/personal
+
+source activate gubbins_sim
+
+cd ~/legionella_work/gubbins/gubbins_3.2.1_res
+
+#CURRENT_GPSC=$(head -n $PBS_ARRAY_INDEX ../lp_gubb_res.txt | tail -n 1)
+
+CLADE=$PBS_ARRAY_INDEX
+#printf "%s   %s\n" $CURRENT_GPSC $PBS_ARRAY_INDEX >> lp_still_running.txt
+
+
+cd "lp${CLADE}_gubbins_3.2.1_ft_raxml_32"
+OUT_NAME="lp${CLADE}_gubbins.embl_csv"
+OUT_SNPS="lp${CLADE}_classified_snps.csv"
+
+## Lets run the EMBL switcher
+
+python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
+--output $OUT_NAME --threads 8
+
+END_EMBL=$(( SECONDS - START ))
+
+## Now for the SNP classifier
+
+Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
+--reccy-gff *.recombination_predictions.gff \
+--branch-base *embl_csv.csv --threads 8 \
+--out $OUT_SNPS
+
+END_SNP=$(( SECONDS - START - END_EMBL ))
+END_TOT=$(( SECONDS - START ))
+
+printf "Took this long in total %s (S): embl_changer %s (S); SNP classifier %s (S)" $END_TOT \
+$END_EMBL $END_SNPS
+
+echo "DONE !!!"
+
+
+
+

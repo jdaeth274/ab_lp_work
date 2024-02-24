@@ -1,0 +1,31 @@
+#PBS -l select=1:ncpus=30:mem=360gb
+#PBS -l walltime=48:00:00
+
+set -e 
+module load anaconda3/personal
+
+source activate gubbins2_env
+
+cd /rds/general/user/jd2117/ephemeral/
+
+if [ -d gc2_gubbins_3.1.14_rnj_30 ]
+then
+	rm -r gc2_gubbins_3.1.14_rnj_30
+	mkdir gc2_gubbins_3.1.14_rnj_30
+else
+	mkdir gc2_gubbins_3.1.14_rnj_30
+fi
+
+cd ./gc2_gubbins_3.1.14_rnj_30
+
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix gc2_gubbins --use-time-stamp --threads 30 \
+--verbose --tree-builder rapidnj --first-tree-builder rapidnj --model JC \
+--max-window-size 100000 --no-cleanup \
+~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_splits/gc2_5092_ska_aln.aln 
+
+echo ""
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo ""
+

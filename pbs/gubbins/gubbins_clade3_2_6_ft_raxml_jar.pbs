@@ -1,0 +1,42 @@
+#PBS -l select=1:ncpus=8:mem=32gb:cpu_type=rome
+#PBS -l walltime=48:00:00
+#PBS -J 1-4
+
+set -e 
+module load anaconda3/personal
+
+source activate gubbins_git
+
+cd /rds/general/user/jd2117/ephemeral/
+# Set up the current run id 
+#CURRENT_DIR=$(head -n $PBS_ARRAY_INDEX ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs | tail -n 1)
+CLADE=$(( PBS_ARRAY_INDEX + 2 ))
+#cd $CURRENT_DIR
+
+ALN_FILE="/rds/general/user/jd2117/home/acinetobacter_ENA_download_2021_03_23/gubbins_runs/clade_res/clade_${CLADE}_aln.aln"
+echo "This is the aln file: $ALN_FILE "
+ls -lht | head 
+GUBB_DIR="clade_${CLADE}_gubbins_res_jar"
+if [ -d $GUBB_DIR ]
+then
+	rm -r $GUBB_DIR
+	mkdir $GUBB_DIR
+else
+	mkdir $GUBB_DIR
+fi
+
+cd $GUBB_DIR
+START_GUB=$SECONDS
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix $GUBB_DIR --use-time-stamp --threads 8 \
+--verbose --tree-builder raxml --first-tree-builder fasttree \
+$ALN_FILE > gubbins_log 2>&1
+END_GUB=$(( SECONDS - START ))
+PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
+echo "Took this long for clade $CLADE run, $END_GUB " > "clade_${CLADE}_time.txt"
+echo "Used this processor for the runs: $PROC" >> "clade_${CLADE}_time.txt"
+python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
+--output "clade_${CLADE}.embl_csv" --threads 8 
+
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

@@ -1,0 +1,51 @@
+#PBS -l select=1:ncpus=12:mem=16gb
+#PBS -l walltime=48:00:00
+#PBS -J 1-6
+START=$SECONDS
+set -e
+
+module load anaconda3/personal
+
+source activate gubbins_sim
+
+cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gubb_3.2.1_runs 
+
+CLADE=$PBS_ARRAY_INDEX
+
+if [ $CLADE -eq 1 ]
+then
+	cd "gc1_gubbins_3.2.1_ft_rax"
+	OUT_NAME="gc1_gubbins.embl_csv"
+	OUT_SNPS="gc1_gubbins_classified_snps.csv"
+elif [ $CLADE -eq 2 ]
+then 
+	cd "gc2_gubbins_3.2.0_ft_raxml_128_3.2.1"
+	OUT_NAME="gc2_gubbins.embl_csv"
+	OUT_SNPS="gc2_gubbins_classified_snps.csv"
+else
+	cd "clade_${CLADE}_gubbins_res_jar_3.2.1"
+	OUT_NAME="clade_${CLADE}_gubbins.embl_csv"
+	OUT_SNPS="clade_${CLADE}_gubbins_classified_snps.csv"
+fi
+
+python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
+--output $OUT_NAME --threads 12
+
+END_EMBL=$(( SECONDS - START ))
+
+Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
+--reccy-gff *.recombination_predictions.gff \
+--branch-base *embl_csv.csv --threads 12 \
+--out $OUT_SNPS
+
+END_SNPS=$(( SECONDS - START - END_EMBL ))
+END_TOT=$(( SECONDS - START ))
+
+printf "Took this long in total %s (S): embl_changer %s (S); SNP_classifier %s (S)" $END_TOT \
+$END_EMBL $END_SNPS > embl_snp_time.txt 
+
+echo "Done !!!"
+
+
+
+

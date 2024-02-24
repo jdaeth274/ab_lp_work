@@ -1,0 +1,36 @@
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=24:00:00
+
+set -e 
+module load anaconda3/personal
+
+source activate gubbins2_env
+
+cd /rds/general/user/jd2117/ephemeral/clade_4_skf_files
+# Set up the current run id 
+#CLADE=$(( PBS_ARRAY_INDEX + 2 ))
+#cd $CURRENT_DIR
+
+ALN_FILE="../clade_4_aln.aln"
+echo "This is the aln file: $ALN_FILE "
+ls -lht | head 
+GUBB_DIR="clade_4_gubbins_res"
+if [ -d $GUBB_DIR ]
+then
+	rm -r $GUBB_DIR
+	mkdir $GUBB_DIR
+else
+	mkdir $GUBB_DIR
+fi
+
+cd $GUBB_DIR
+
+
+
+python ~/gubbins/python/run_gubbins.py --prefix $GUBB_DIR --use-time-stamp --threads 8 \
+--verbose --tree-builder iqtree --first-tree-builder fasttree --mar --model JC \
+$ALN_FILE 
+
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

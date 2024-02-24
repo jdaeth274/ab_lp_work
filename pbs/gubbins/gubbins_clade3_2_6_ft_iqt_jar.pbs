@@ -1,0 +1,36 @@
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=48:00:00
+#PBS -J 1-4
+
+set -e 
+module load anaconda3/personal
+
+source activate gubbins_git
+
+cd /rds/general/user/jd2117/ephemeral/
+# Set up the current run id 
+#CURRENT_DIR=$(head -n $PBS_ARRAY_INDEX ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs | tail -n 1)
+CLADE=$(( PBS_ARRAY_INDEX + 2 ))
+#cd $CURRENT_DIR
+
+ALN_FILE="/rds/general/user/jd2117/home/acinetobacter_ENA_download_2021_03_23/gubbins_runs/clade_res/clade_${CLADE}_aln.aln"
+echo "This is the aln file: $ALN_FILE "
+ls -lht | head 
+GUBB_DIR="clade_${CLADE}_gubbins_res_jar"
+if [ -d $GUBB_DIR ]
+then
+	rm -r $GUBB_DIR
+	mkdir $GUBB_DIR
+else
+	mkdir $GUBB_DIR
+fi
+
+cd $GUBB_DIR
+
+python ~/gubbins/python/run_gubbins.py --prefix $GUBB_DIR --use-time-stamp --threads 8 \
+--verbose --tree-builder iqtree --first-tree-builder fasttree --model JC \
+$ALN_FILE 
+
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
+echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

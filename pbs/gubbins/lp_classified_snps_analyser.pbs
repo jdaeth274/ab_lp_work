@@ -1,0 +1,38 @@
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l walltime=24:00:00
+#PBS -J 1-3
+
+set -e 
+
+module load anaconda3/personal
+
+source activate gubbins_git 
+
+cd ~/legionella_work/gubbins
+
+CURRENT_GPSC=$(head -n $PBS_ARRAY_INDEX lp_gubb_res.txt | tail -n 1)
+
+printf "%s   %s\n" $CURRENT_GPSC $PBS_ARRAY_INDEX >> lp_still_running.txt
+
+## Lets run the SNP classifier first 
+
+RECCY_FILE="${CURRENT_GPSC}.recombination_predictions.gff"
+BRANCH_BASE="${CURRENT_GPSC}_branch_base.csv"
+SNP_FILE="${CURRENT_GPSC}_classified_snps.csv"
+
+Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
+--reccy-gff $RECCY_FILE --branch-base $BRANCH_BASE --out $SNP_FILE
+
+## Lets run the pastml now 
+#TREE_FILE="${CURRENT_GPSC}.node_labelled.final_tree.tre"
+#STATE_FILE="${CURRENT_GPSC}_states.tsv"
+#STATES_RECON="${CURRENT_GPSC}_tag_recon.tsv"
+
+#python ~/gubbins_testing/gubbins_sim/python/testing_pastml.py --gubbins $TREE_FILE \
+#--out_prefix $STATES_RECON --data $STATE_FILE
+
+CURRENT_FILE_LINE=$(grep -n "${CURRENT_GPSC}   ${PBS_ARRAY_INDEX}" | awk -F ":" '{print $1}')
+sed -i "${CURRENT_FILE_LINE}d" gpscs_still_running.txt
+
+
+
