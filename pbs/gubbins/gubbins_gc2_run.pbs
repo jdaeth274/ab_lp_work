@@ -1,17 +1,39 @@
-#PBS -l select=1:ncpus=32:mem=124gb
+#PBS -l select=1:ncpus=128:mem=256gb:cpu_type=rome
 #PBS -l walltime=72:00:00
 
 set -e 
 module load anaconda3/personal
 
-source activate gubbins2_env
+source activate gubbins_git
 
-cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_gubbins
+cd /rds/general/user/jd2117/ephemeral/
 
-python ~/gubbins/python/run_gubbins.py --prefix gc2_gubbins --use-time-stamp --threads 32 \
---verbose --tree-builder iqtree --first-tree-builder iqtree --mar --model JC \
-../gc2_5092_splits/gc2_5092_ska_aln.aln 
+if [ -d gc2_gubbins_ft_raxml_128 ]
+then
+	rm -r gc2_gubbins_ft_raxml_128
+	mkdir gc2_gubbins_ft_raxml_128
+else
+	mkdir gc2_gubbins_ft_raxml_128
+fi
 
+#cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_fasttree_iqtree_gubbins
+
+cd ./gc2_gubbins_ft_raxml_128
+START=$SECONDS
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix gc2_gubbins --use-time-stamp \
+--threads 128 --verbose --tree-builder raxml --first-tree-builder fasttree \
+--max-window-size 100000 --min-snps 2 \
+~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_splits/gc2_5092_ska_aln.aln > gubbins_log 2>&1 
+END=$(( SECONDS - START ))
+PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
+echo "Took this long for GC2 run, $END_GUB" > "./GC2_time.txt"
+echo "Used this processor for the runs: $PROC" >> "./GC2_time.txt"
+python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
+--output "gc2_gubbins.embl_csv" --threads 32 
+
+echo ""
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@@@@@@@@@@@@@@@@ DONE @@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+echo ""
+
