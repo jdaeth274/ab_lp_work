@@ -1,4 +1,4 @@
-#PBS -l select=1:ncpus=32:mem=64gb
+#PBS -l select=1:ncpus=32:mem=124gb
 #PBS -l walltime=72:00:00
 
 set -e 
@@ -8,27 +8,28 @@ source activate gubbins_git
 
 cd /rds/general/user/jd2117/ephemeral/
 
-if [ -d lp2_gubbins_3.2.0_ft_raxml_32 ]
+if [ -d lp1_gubbins ]
 then
-	rm -r lp2_gubbins_3.2.0_ft_raxml_32
-	mkdir lp2_gubbins_3.2.0_ft_raxml_32
+	rm -r lp1_gubbins
+	mkdir lp1_gubbins
 else
-	mkdir lp2_gubbins_3.2.0_ft_raxml_32
+	mkdir lp1_gubbins
 fi
 
 #cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_fasttree_iqtree_gubbins
 
-cd ./lp2_gubbins_3.2.0_ft_raxml_32
+cd ./lp1_gubbins
 
-/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix lp2_gubbins --use-time-stamp --threads 32 \
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix lp1_gubbins \
+--use-time-stamp --threads 32 \
 --verbose --tree-builder raxml --first-tree-builder fasttree \
---max-window-size 100000 \
-~/legionella_work/ska_runs/legion_2_ska_aln.aln > gubbins_log 2>&1
+--max-window-size 100000 --min-snps 2 \
+~/legionella_work/ska_runs/legion_1_ska_aln.aln > gubbins_log 2>&1
 PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
-echo "Took this long for lp2 run, $END_GUB" > "./lp2_time.txt"
-echo "Used this processor for the runs: $PROC" >> "./lp2_time.txt"
+echo "Took this long for lp1 run, $END_GUB" > "./lp1_time.txt"
+echo "Used this processor for the runs: $PROC" >> "./lp1_time.txt"
 python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
---output "lp2_gubbins.embl_csv" --threads 12 
+--output "lp1_gubbins.embl_csv" --threads 32 
 
 echo ""
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

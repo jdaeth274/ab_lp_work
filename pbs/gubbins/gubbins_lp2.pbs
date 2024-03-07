@@ -1,35 +1,35 @@
 #PBS -l select=1:ncpus=32:mem=64gb
-#PBS -l walltime=24:00:00
+#PBS -l walltime=72:00:00
 
 set -e 
 module load anaconda3/personal
 
-source activate gubbins_git_3.2.1
+source activate gubbins_git
 
 cd /rds/general/user/jd2117/ephemeral/
 
-if [ -d lp3_gubbins_3.2.1_ft_raxml_32 ]
+if [ -d lp2_gubbins ]
 then
-	rm -r lp3_gubbins_3.2.1_ft_raxml_32
-	mkdir lp3_gubbins_3.2.1_ft_raxml_32
+	rm -r lp2_gubbins
+	mkdir lp2_gubbins
 else
-	mkdir lp3_gubbins_3.2.1_ft_raxml_32
+	mkdir lp2_gubbins
 fi
 
 #cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_fasttree_iqtree_gubbins
 
-cd ./lp3_gubbins_3.2.1_ft_raxml_32
+cd ./lp2_gubbins
 
-/usr/bin/time -v python ~/gubbins_acba_legion/gubbins/python/run_gubbins.py --prefix lp3_gubbins \
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix lp2_gubbins \
 --use-time-stamp --threads 32 \
 --verbose --tree-builder raxml --first-tree-builder fasttree \
 --max-window-size 100000 --min-snps 2 \
-~/legionella_work/ska_runs/legion_3_ska_aln.aln > gubbins_log 2>&1
+~/legionella_work/ska_runs/legion_2_ska_aln.aln > gubbins_log 2>&1
 PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
-echo "Took this long for lp3 run, $END_GUB" > "./lp3_time.txt"
-echo "Used this processor for the runs: $PROC" >> "./lp3_time.txt"
+echo "Took this long for lp2 run, $END_GUB" > "./lp2_time.txt"
+echo "Used this processor for the runs: $PROC" >> "./lp2_time.txt"
 python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
---output "lp3_gubbins.embl_csv" --threads 12 
+--output "lp2_gubbins.embl_csv" --threads 12 
 
 echo ""
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

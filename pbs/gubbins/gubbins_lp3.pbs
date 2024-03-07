@@ -4,23 +4,23 @@
 set -e 
 module load anaconda3/personal
 
-source activate gubbins_git_3.2.1
+source activate gubbins_git
 
 cd /rds/general/user/jd2117/ephemeral/
 
-if [ -d lp3_gubbins_3.2.1_ft_raxml_32 ]
+if [ -d lp3_gubbins ]
 then
-	rm -r lp3_gubbins_3.2.1_ft_raxml_32
-	mkdir lp3_gubbins_3.2.1_ft_raxml_32
+	rm -r lp3_gubbins
+	mkdir lp3_gubbins
 else
-	mkdir lp3_gubbins_3.2.1_ft_raxml_32
+	mkdir lp3_gubbins
 fi
 
 #cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_fasttree_iqtree_gubbins
 
-cd ./lp3_gubbins_3.2.1_ft_raxml_32
+cd ./lp3_gubbins
 
-/usr/bin/time -v python ~/gubbins_acba_legion/gubbins/python/run_gubbins.py --prefix lp3_gubbins \
+/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix lp3_gubbins \
 --use-time-stamp --threads 32 \
 --verbose --tree-builder raxml --first-tree-builder fasttree \
 --max-window-size 100000 --min-snps 2 \
