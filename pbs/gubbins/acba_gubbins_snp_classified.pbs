@@ -14,7 +14,7 @@ CLADE=$PBS_ARRAY_INDEX
 
 if [ $CLADE -eq 1 ]
 then
-	cd "gc1_gubbins_3.2.0_ft_rax"
+	cd "gc1_gubbins_ft_rax"
 	OUT_NAME="gc1_gubbins_classified_snps.csv"
 elif [ $CLADE -eq 2 ]
 then
