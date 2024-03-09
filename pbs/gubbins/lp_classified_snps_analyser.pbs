@@ -1,4 +1,4 @@
-#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l select=1:ncpus=8:mem=16gb
 #PBS -l walltime=24:00:00
 #PBS -J 1-3
 
@@ -22,7 +22,8 @@ BRANCH_BASE="${GUBBINS_RES}_embl_csv.csv"
 SNP_FILE="${GUBBINS_RES}_classified_snps.csv"
 
 Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
---reccy-gff $RECCY_FILE --branch-base $BRANCH_BASE --out $SNP_FILE
+--reccy-gff $RECCY_FILE --branch-base $BRANCH_BASE --out $SNP_FILE \
+--threads 8
 END_TIME=$(( SECONDS - START_TIME ))
 END_DATE=$(date)
 echo "Finished $GUBBINS_RES at $END_DATE in $END_TIME (s)"  >> ../lp_finished_snp_class.txt 
