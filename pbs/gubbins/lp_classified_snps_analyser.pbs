@@ -18,7 +18,7 @@ cd $GUBBINS_RES
 
 
 RECCY_FILE="${GUBBINS_RES}.recombination_predictions.gff"
-BRANCH_BASE="${GUBBINS_RES}_embl_csv.csv"
+BRANCH_BASE="${GUBBINS_RES}.embl_csv.csv"
 SNP_FILE="${GUBBINS_RES}_classified_snps.csv"
 
 Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \

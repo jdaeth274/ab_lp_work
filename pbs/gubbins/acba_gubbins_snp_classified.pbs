@@ -23,7 +23,7 @@ then
 else
 	CLADE="clade_${CLADE}_gubbins_res"
 	cd $CLADE 
-	OUT_NAME="clade_${CLADE}_gubbins_classified_snps.csv"
+	OUT_NAME="clade_${PBS_ARRAY_INDEX}_gubbins_classified_snps.csv"
 fi
 
 Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
