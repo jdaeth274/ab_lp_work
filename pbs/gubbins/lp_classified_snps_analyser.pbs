@@ -6,7 +6,7 @@ set -e
 START_TIME=$SECONDS
 module load anaconda3/personal
 
-source activate gubbins_git 
+source activate gubbins_sim 
 
 cd /rds/general/user/jd2117/home/acba_legion_2024/gubbins_res
 
