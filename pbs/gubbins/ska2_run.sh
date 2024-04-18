@@ -13,7 +13,16 @@ FILE_LIST=$(echo $CURRENT_FILE | awk '{print $1}')
 export REFERENCE_LOC=$(echo $CURRENT_FILE | awk '{print $2}') 
 
 OUTPUT_NAME=$(basename $FILE_LIST | sed 's/\..*$/_ska_res/g')
+
+echo "This is the current file"
+echo $CURRENT_FILE
+echo "This is the file list:"
+echo $FILE_LIST
+echo "This is the reference loc:"
+echo $REFERENCE_LOC
+echo "This is the output name:"
 echo $OUTPUT_NAME
+
 mkdir -p "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
 cd "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
 
