@@ -8,22 +8,11 @@ eval "$(/rds/general/user/jd2117/home/miniforge3/bin/conda shell.bash hook)"
 source /rds/general/user/jd2117/home/miniforge3/bin/activate panaroo_env
 
 
-if [ $# -ne 3 ]
-then 
-    echo "Need 3 arguments"
-    echo "Script to run ska2 via parallel on large collections of isolates"
-    echo ""
-    echo "Usage: "
-    echo "qsub qsub ska2_run.pbs <list_of_fasta_files> <full_path_to_reference> <output_dir>"
-    echo ""
-    exit
-else
-    FILE_LIST=$1
-    export REFERENCE_LOC=$2 
-fi
+FILE_LIST="~/acba_legion_2024/ska_input/gc2_5092_paths.txt"
+export REFERENCE_LOC="~/acba_legion_2024/ska_input/GCA_001573125.1_ASM157312v1_genomic.fna" 
 
-mkdir -p $3
-cd $3
+mkdir -p ~/../ephemeral/acba_legion/ska2_res/GC2/
+cd ~/../ephemeral/acba_legion/ska2_res/GC2/
 
 START_TIME=$SECONDS
 cat ${FILE_LIST} | parallel -j 16 "NGSID=\$(basename {} | sed 's/_g.*fna/_temp_skf/g');
