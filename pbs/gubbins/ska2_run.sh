@@ -9,12 +9,11 @@ source /rds/general/user/jd2117/home/miniforge3/bin/activate ska2_env
 
 CURRENT_FILE=$(head -n $PBS_ARRAY_INDEX /rds/general/user/jd2117/home/acba_legion_2024/ska_input/acba_files_references.txt | tail -n 1)
 FILE_LIST=$(echo $CURRENT_FILE | awk '{print $1}')
-REFERENCE_LOC=$(echo $CURRENT_FILE | awk '{print $2}')
 
-export $REFERENCE_LOC 
+export REFERENCE_LOC=$(echo $CURRENT_FILE | awk '{print $2}') 
 
 OUTPUT_NAME=$(basename $FILE_LIST | sed 's/\..*$/_ska_res/g')
-
+echo $OUTPUT_NAME
 mkdir -p "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
 cd "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
 
