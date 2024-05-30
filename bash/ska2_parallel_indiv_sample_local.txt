@@ -1,0 +1,34 @@
+#! /bin/bash
+
+set -e
+
+if [ $# -ne 3 ]
+then
+	echo "Need 3 arguments"
+	echo "Script to run ska via parallel on a large collection of isolates"
+	echo ""
+	echo "usage:"
+	echo "qsub ska2_parallel_indiv_sample.sh <list of fasta files> <full location of reference> <output dir>"
+	echo ""
+	exit
+else
+	FILE_LIST=$1
+	export REFERENCE_LOC=$2
+	
+fi
+
+#conda activate ska2_env
+
+mkdir -p $3
+cd $3
+## That should load up the environment, lets do some 
+## SKAing!!
+START_TIME=$SECONDS
+cat ${FILE_LIST} | parallel -j 6 "NGSID=\$(basename {} | sed 's/_a.*fasta/_temp_skf/g');
+ ska build -o \$NGSID -k 31 {} ;
+ ska weed --ambig-mask \${NGSID}.skf;
+MAPOUT=\$(basename {} | sed 's/_a.*fasta/_aln/g');
+ ska map $REFERENCE_LOC \${NGSID}.skf -o \${MAPOUT}.aln"
+
+END=$(( SECONDS - START_TIME ))
+echo "Finished in ${END} (s) "

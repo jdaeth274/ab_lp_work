@@ -1,0 +1,42 @@
+#!/bin/bash
+#SBATCH --job-name=Panaroo
+#SBATCH --workdir=/hpscol02/tenant1/users/joshua.daeth/bordetella/slurm_runs
+#SBATCH -p standard-wp
+#SBATCH --mem=16G
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+
+set -e
+
+## Set up conda 
+eval "$(/hpscol02/tenant1/users/joshua.daeth/miniforge-pypy3/bin/conda shell.bash hook)"
+
+source /hpscol02/tenant1/users/joshua.daeth/miniforge-pypy3/bin/activate panaroo_env
+
+#conda activate 
+#mamba activate panaroo_env
+
+if [ $# -ne 2 ]
+then
+	echo "Script to run panaroo from a directory of gffs and an output directory"
+	echo "Usage:"
+	echo "sbatch panaroo_run.sh <FULL directory of gffs> <Full output directory"
+	echo ""
+	exit
+fi
+
+cd /hpscol02/tenant1/users/joshua.daeth/bordetella/prokka_res
+
+## Take input from command line for files list.
+GFF_DIR=$1
+OUTPUT_DIR=$2
+
+cd $GFF_DIR
+
+PAN_START=$SECONDS
+panaroo -i *.gff -o $OUTPUT_DIR --clean-mode strict -t 16
+PAN_END=$(( SECONDS - PAN_START ))
+CURRENT_TIME=$(date)
+echo "Took this long to run at ${CURRENT_TIME}, ${PAN_END}(s)"
+
+
