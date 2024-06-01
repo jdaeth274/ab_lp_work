@@ -2,7 +2,7 @@
 #PBS -l walltime=24:00:00
 ## Script to run SKA 2 on the Imperial HPC for the acba gc2 lineage
 
-source /rds/general/user/jd2117/home/miniforge3/bin/activate bioperl
+source /rds/general/user/jd2117/home/anaconda3/bin/activate bioperl
 
 cd /rds/general/user/jd2117/ephemeral/acba_legion/trimmed_assemblies
 
