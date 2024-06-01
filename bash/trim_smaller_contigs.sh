@@ -11,7 +11,8 @@ Requires Bio::SeqIO in perl to be installed
 Usage: \n\
 bash fastaq_limit_500_bp.sh <list_of_fastas[required]> <length_cutoff[default=500]> \n\
 \n\
-Make sure you use this as above"
+Make sure you use this as above \n\
+"
     exit 
 fi 
 
@@ -34,7 +35,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 parentdir="$(dirname "$DIR")"
 #pythondir="${parentdir}/python/"
 perldir="${parentdir}/perl/"
-rdir="${parentdir}/R/"
+
 
 
 ## Enter the loop to remove 
@@ -49,6 +50,8 @@ CURRENT_TRIM=$(echo $CURRENT_FASTA | sed "s/\.${CURRENT_EXT}/_trimmed_${CUTOFF}b
 
 ## Run the trim from the perl script in the same parent diretory 
 PERLSCRIPT="${perldir}filter_contigs.pl"
+
+touch $CURRENT_TRIM
 
 perl $PERLSCRIPT $CUTOFF $line $CURRENT_TRIM
 
