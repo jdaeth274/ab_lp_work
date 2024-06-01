@@ -1,0 +1,30 @@
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l walltime=24:00:00
+## Script to run SKA 2 on the Imperial HPC for the acba gc2 lineage
+
+source /rds/general/user/jd2117/home/miniforge3/bin/activate bioperl
+
+cd /rds/general/user/jd2117/ephemeral/acba_legion/trimmed_assemblies
+
+START_TIME=$SECONDS
+cd gc2_trimmed
+
+bash ~/acba_legion_2024/ab_lp_work/bash/trim_smaller_contigs.sh gc2_5092_paths.txt
+
+cd ../gc1_trimmed
+
+bash ~/acba_legion_2024/ab_lp_work/bash/trim_smaller_contigs.sh gc1*.txt
+
+cd ../clade_3_trimmed 
+bash ~/acba_legion_2024/ab_lp_work/bash/trim_smaller_contigs.sh clade_3*.txt
+
+cd ../clade_4_trimmed 
+bash ~/acba_legion_2024/ab_lp_work/bash/trim_smaller_contigs.sh clade_4*.txt
+
+cd ../clade_5_trimmed 
+bash ~/acba_legion_2024/ab_lp_work/bash/trim_smaller_contigs.sh clade_5*.txt
+
+END_TIME=$(( SECONDS - START_TIME ))
+datio=$(date)
+echo "Finished in ${END_TIME} at $datio "
+
