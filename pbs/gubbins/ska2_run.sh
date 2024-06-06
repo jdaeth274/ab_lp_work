@@ -23,7 +23,7 @@ ska build -o $NGSID -k 31 $line ;
 ska weed --ambig-mask ${NGSID}.skf;
 MAPOUT=$(basename $line | sed 's/_g.*fna/_aln/g');
 ska map $REFERENCE_LOC ${NGSID}.skf -o ${MAPOUT}.aln
-echo $NGSID >> ~/../ephemeral/acba_legion/ska_runs/gc2_ska/finished_ska2.txt"
+echo $NGSID >> "~/../ephemeral/acba_legion/ska_runs/gc2_ska/finished_ska2.txt"
 done
 END=$(( SECONDS - START_TIME ))
 echo "Finished in ${END} (s) "
