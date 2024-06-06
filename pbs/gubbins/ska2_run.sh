@@ -11,8 +11,8 @@ REFERENCE_LOC="/rds/general/user/jd2117/home/acba_legion_2024/ska_input/GCA_0015
 
 OUTPUT_NAME="GC2_SKA2_RES"
 
-mkdir -p "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
-cd "~/../ephemeral/acba_legion/ska2_res/${OUTPUT_NAME}/"
+mkdir -p "~/../ephemeral/acba_legion/ska2_runs/gc2_ska/"
+cd "~/../ephemeral/acba_legion/ska2_runs/gc2_ska/"
 
 START_TIME=$SECONDS
 cat ${CURRENT_FILE} | while read line;
