@@ -11,8 +11,8 @@ REFERENCE_LOC="/rds/general/user/jd2117/home/acba_legion_2024/ska_input/GCA_0015
 
 OUTPUT_NAME="GC2_SKA2_RES"
 
-mkdir -p "~/../ephemeral/acba_legion/ska_runs/gc2_ska/"
-cd "~/../ephemeral/acba_legion/ska_runs/gc2_ska/"
+mkdir -p "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/gc2_ska"
+cd "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/gc2_ska"
 
 START_TIME=$SECONDS
 cat ${CURRENT_FILE} | while read line;
@@ -23,7 +23,7 @@ ska build -o $NGSID -k 31 $line ;
 ska weed --ambig-mask ${NGSID}.skf;
 MAPOUT=$(basename $line | sed 's/_g.*fna/_aln/g');
 ska map $REFERENCE_LOC ${NGSID}.skf -o ${MAPOUT}.aln
-echo $NGSID >> "~/../ephemeral/acba_legion/ska_runs/gc2_ska/finished_ska2.txt"
+echo $NGSID >> "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/gc2_ska"
 done
 END=$(( SECONDS - START_TIME ))
 echo "Finished in ${END} (s) "
