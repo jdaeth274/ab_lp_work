@@ -7,9 +7,9 @@ source /rds/general/user/jd2117/home/miniforge3/bin/activate ska2_env
 
 CURRENT_FILE=$(head -n $PBS_ARRAY_INDEX /rds/general/user/jd2117/home/acba_legion_2024/ska_input/acba_files_references_ska.txt | tail -n 1)
 
-TRIMMED_ASS=$(cat $CURRENT_FILE | awk '{print $1}')
-REFERENCE_LOC=$(cat $CURRENT_FILE | awk '{print $2}')
-SKA_DIR=$(cat $CURRENT_FILE | awk '{print $3}')
+TRIMMED_ASS=$(echo $CURRENT_FILE | awk '{print $1}')
+REFERENCE_LOC=$(echo $CURRENT_FILE | awk '{print $2}')
+SKA_DIR=$(echo $CURRENT_FILE | awk '{print $3}')
 
 mkdir -p $SKA_DIR
 cd $SKA_DIR
