@@ -2,10 +2,7 @@
 #PBS -l walltime=72:00:00
 
 set -e 
-module load anaconda3/personal
-
-source activate gubbins_git
-
+source /rds/general/user/jd2117/home/miniforge3/bin/activate gubbins_env
 cd /rds/general/user/jd2117/ephemeral/
 
 if [ -d gc1_gubbins_ft_rax ]
@@ -20,11 +17,11 @@ fi
 
 cd ./gc1_gubbins_ft_rax
 
-/usr/bin/time -v python ~/gubbins/python/run_gubbins.py --prefix gc1_gubbins \
+/usr/bin/time -v run_gubbins.py --prefix gc1_gubbins \
 --use-time-stamp --threads 32 \
 --verbose --tree-builder raxml --first-tree-builder fasttree \
 --max-window-size 100000 --min-snps 2 \
-~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc1_ska_aln.aln > gubbins_log 2>&1
+/rds/general/user/jd2117/home/acba_legion_2024/ska_output/gc1_trimmed_ska2_aln.aln > gubbins_log 2>&1
 PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
 echo "Took this long for GC1 run, $END_GUB" > "./GC2_time.txt"
 echo "Used this processor for the runs: $PROC" >> "./GC2_time.txt"
