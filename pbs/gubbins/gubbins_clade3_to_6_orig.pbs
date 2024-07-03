@@ -16,7 +16,7 @@ CLADE=$(( PBS_ARRAY_INDEX + 2 ))
 ALN_FILE="/rds/general/user/jd2117/home/acinetobacter_ENA_download_2021_03_23/gubbins_runs/clade_res/clade_${CLADE}_aln.aln"
 echo "This is the aln file: $ALN_FILE "
 ls -lht | head 
-GUBB_DIR="clade_${CLADE}_gubbins_res"
+GUBB_DIR="clade_${CLADE}_gubbins_res_orig"
 if [ -d $GUBB_DIR ]
 then
 	rm -r $GUBB_DIR
