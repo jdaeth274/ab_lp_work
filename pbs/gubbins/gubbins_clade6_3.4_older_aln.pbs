@@ -1,5 +1,5 @@
 #PBS -l select=1:ncpus=8:mem=16gb:cpu_type=rome
-#PBS -l walltime=12:00:00
+#PBS -l walltime=01:00:00
 
 set -e 
 source /rds/general/user/jd2117/home/miniforge3/bin/activate gubbins_env
