@@ -1,5 +1,5 @@
 #PBS -l select=1:ncpus=8:mem=16gb:cpu_type=rome
-#PBS -l walltime=48:00:00
+#PBS -l walltime=01:00:00
 
 set -e 
 source /rds/general/user/jd2117/home/miniforge3/bin/activate gubbins_env
@@ -23,7 +23,7 @@ fi
 cd $GUBB_DIR
 START_GUB=$SECONDS
 /usr/bin/time -v run_gubbins.py --prefix $GUBB_DIR \
---use-time-stamp --threads 8 \
+--use-time-stamp --threads 8 --no-cleanup\
 --verbose --tree-builder raxml --first-tree-builder fasttree \
 --min-snps 2 \
 $ALN_FILE > gubbins_log 2>&1
