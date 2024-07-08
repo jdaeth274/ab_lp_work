@@ -1,0 +1,31 @@
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+## Script to run SKA 2 on the Imperial HPC for the acba lineages
+
+source /rds/general/user/jd2117/home/miniforge3/bin/activate ska2_env
+
+CURRENT_FILE=$(head -n 5 /rds/general/user/jd2117/home/acba_legion_2024/ska_input/acba_files_references_ska.txt | tail -n 1)
+
+TRIMMED_ASS=$(echo $CURRENT_FILE | awk '{print $1}')
+REFERENCE_LOC=$(echo $CURRENT_FILE | awk '{print $2}')
+SKA_DIR=$(echo $CURRENT_FILE | awk '{print $3}')
+
+mkdir -p $SKA_DIR
+cd $SKA_DIR
+
+START_TIME=$SECONDS
+cat ${TRIMMED_ASS} | while read line;
+do
+SKF_FILE=$(basename $line | sed 's/_g.*fna/_temp_skf/g')
+ALIGNO_NAME=$(basename $line | sed 's/_g.*fna/ska_aligno/g')
+printf "${ALIGNO_NAME}\t${line}\n" > temp_ska_file_name.tsv
+echo $NGSID
+ska build -o $SKF_FILE -k 31 -f temp_ska_file_name.tsv ;
+ska weed --ambig-mask ${SKF_FILE}.skf;
+MAPOUT=$(basename $line | sed 's/_g.*fna/_aln/g');
+ska map $REFERENCE_LOC ${SKF_FILE}.skf -o ${MAPOUT}.aln
+echo $NGSID >> "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/gc2_ska"
+done
+END=$(( SECONDS - START_TIME ))
+echo "Finished in ${END} (s) "
+
