@@ -18,13 +18,14 @@ BASIO=$(basename $SKA_DIR)
 START_TIME=$SECONDS
 cat ${TRIMMED_ASS} | while read line;
 do
-NGSID=$(basename $line | sed 's/_g.*fna/_temp_skf/g')
-echo $NGSID
-ska build -o $NGSID -k 31 $line ;
-ska weed --ambig-mask ${NGSID}.skf;
+SKF_FILE=$(basename $line | sed 's/_g.*fna/_temp_skf/g')
+ALIGNO_NAME=$(basename $line | sed 's/_g.*fna/ska_aligno/g')
+printf "${ALIGNO_NAME}\t${line}\n" > temp_ska_file_name.tsv
+ska build -o $SKF_FILE -k 31 -f temp_ska_file_name.tsv ;
+ska weed --ambig-mask ${SKF_FILE}.skf;
 MAPOUT=$(basename $line | sed 's/_g.*fna/_aln/g');
-ska map $REFERENCE_LOC ${NGSID}.skf -o ${MAPOUT}.aln
-echo $NGSID >> "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/finished_for_${BASIO}.txt"
+ska map $REFERENCE_LOC ${SKF_FILE}.skf -o ${MAPOUT}.aln
+echo $SKF_FILE >> "/rds/general/user/jd2117/ephemeral/acba_legion/ska_runs/finished_for_${BASIO}.txt"
 done
 END=$(( SECONDS - START_TIME ))
 echo "Finished in ${END} (s) "
