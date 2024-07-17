@@ -32,6 +32,9 @@ END_GUB=$(( SECONDS - START ))
 PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
 echo "Took this long for clade $CLADE run, $END_GUB " > "clade_${CLADE}_time.txt"
 echo "Used this processor for the runs: $PROC" >> "clade_${CLADE}_time.txt"
+
+source /rds/general/user/jd2117/home/anaconda3/bin/activate gubbins_sim
+
 python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
 --output "clade_${CLADE}.embl_csv" --threads 8 
 

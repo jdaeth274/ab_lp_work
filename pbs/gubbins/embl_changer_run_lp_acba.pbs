@@ -1,0 +1,28 @@
+#PBS -l select=1:ncpus=32:mem=64gb:cpu_type=rome
+#PBS -l walltime=48:00:00
+#PBS -J 1-9
+
+source /rds/general/user/jd2117/home/anaconda3/bin/activate gubbins_sim
+
+GUBBINS_DIR=$(head -n $PBS_ARRAY_INDEX /rds/general/user/jd2117/home/acba_legion_2024/gubbins_res/total_gubbins_dirs.txt | tail -n 1 )
+
+cd $GUBBINS_DIR
+
+CLADE=$(basename $GUBBINS_DIR)
+echo $CLADE
+echo $PWD
+echo "Starting python analysis"
+python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
+--output "${CLADE}.embl_csv" --threads 32 
+
+echo "Starting R analysis"
+RECCY_FILE=$(ls -d ${PWD}/*.recombination_predictions.gff )
+BRANCH_BASE=$(ls -d ${PWD}/*.embl_csv.csv )
+SNP_FILE=$(ls -d ${PWD}/${CLADE}_classified_snps.csv )
+
+Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
+--reccy-gff $RECCY_FILE --branch-base $BRANCH_BASE --out $SNP_FILE \
+--threads 16
+END_TIME=$(( SECONDS - START_TIME ))
+END_DATE=$(date)
+echo "Finished $CLADE at $END_DATE in $END_TIME (s)"  >> ../finished_snp_class.txt 
