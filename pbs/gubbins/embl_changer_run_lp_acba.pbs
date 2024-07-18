@@ -18,7 +18,7 @@ python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_
 echo "Starting R analysis"
 RECCY_FILE=$(ls -dt ${PWD}/*.recombination_predictions.gff | head -n 1)
 BRANCH_BASE=$(ls -dt ${PWD}/*.embl_csv.csv | head -n 1)
-SNP_FILE=$(ls -dt ${PWD}/${CLADE}_classified_snps.csv | head -n 1)
+SNP_FILE="${PWD}/${CLADE}_classified_snps.csv"
 
 Rscript --vanilla ~/gubbins_testing/gubbins_sim/R/snp_classifier.R \
 --reccy-gff $RECCY_FILE --branch-base $BRANCH_BASE --out $SNP_FILE \
