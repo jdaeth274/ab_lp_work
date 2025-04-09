@@ -25,6 +25,9 @@ cd ./gc1_gubbins_ft_rax
 PROC=$(cat /proc/cpuinfo | grep 'model name' | uniq)
 echo "Took this long for GC1 run, $END_GUB" > "./GC2_time.txt"
 echo "Used this processor for the runs: $PROC" >> "./GC2_time.txt"
+
+source /rds/general/user/jd2117/home/anaconda3/bin/activate gubbins_sim
+
 python ~/gubbins_testing/gubbins_sim/python/embl_changer.py --embl *branch_base_reconstruction.embl \
 --output "gc1_gubbins.embl_csv" --threads 12 
 

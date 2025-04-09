@@ -847,7 +847,9 @@ total_clade_runs_acba <- function(list_of_results = NULL,regions_to_exclude = "t
     ungroup() %>%
     as.data.frame()
   
-  
+  total_branches <- total_branches %>% 
+    mutate(comM = factor(comM, levels = c("WT","Disrupted")))
+  browser()
   length_box <- ggplot(data = total_branches,
                        aes(x = comM, y = length, group = comM,
                            colour = comM)) +

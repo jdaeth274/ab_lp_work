@@ -24,12 +24,12 @@ source("./src/bootstrapping_functions.R")
 classified_snps_gc2 <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/gc2_gubbins_ft_raxml_128/gc2_gubbins_classified_snps.csv",
                                 stringsAsFactors = FALSE)
 
-tot_gc2 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc2_gubbins_ft_raxml_128/gc2_comM_states.tsv",
+tot_gc2 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/gc2_comM_states_updated_names.tsv",
                         gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc2_gubbins_ft_raxml_128/gc2_gubbins.",
                         phage_starts = c(1527936, 2596115, 2599929, 2698724, 2961618),# 786209),#, 1, 3685790),
                         phage_ends = c(1582498, 2624498, 2636231, 2743967, 2996206), #801880),#, 397167, 3908399),
                         clade_name = "GC2",
-                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc2_gubbins_ft_raxml_128/gc2_comM_res.tsv",
+                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc2_gubbins_ft_raxml_128/gc2_comM_recon.tsv",
                         phage_exclude = TRUE,
                         max_rec_length = NULL,
                         classified_snps =  classified_snps_gc2)
@@ -50,12 +50,12 @@ gc2_boot$gg_hist$length_diff #+ scale_x_continuous(limits = c(0,10000))
 gc1_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/gc1_gubbins_ft_rax/gc1_gubbins_classified_snps.csv",
                      stringsAsFactors = FALSE)
 
-tot_gc1 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc1_gubbins_ft_rax/gc1_comM_states.tsv",
+tot_gc1 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/gc1_comM_states_updated_names.tsv",
                         gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc1_gubbins_ft_rax/gc1_gubbins.",
                         phage_starts = c(2461407, 2682256, 811817),#, 3452029, 1),
                         phage_ends = c(2480441, 2733602, 837679),#, 3688965, 192365),
                         clade_name = "GC1",
-                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc1_gubbins_ft_rax/gc1_comM_res.tsv",
+                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/gc1_gubbins_ft_rax/gc1_comM_recon.tsv",
                         phage_exclude = TRUE,
                         max_rec_length = NULL,
                         classified_snps =  gc1_snps)
@@ -76,12 +76,12 @@ gc1_boot$gg_hist$length_diff #+ scale_x_continuous(limits = c(-100, 100))
 clade3_snps  <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_3_gubbins_res/clade_3_gubbins_classified_snps.csv",
                          stringsAsFactors = FALSE)
 
-tot_clade3 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_3_gubbins_res/clade_3_comM_states.tsv",
+tot_clade3 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/clade_3_comM_states_updated_names.tsv",
                            gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_3_gubbins_res/clade_3_gubbins_res.",
                            phage_starts = c(1735281, 3221404),# 526707),
                            phage_ends = c(1782780, 3273622),#, 668530),
                            clade_name = "Clade3",
-                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_3_gubbins_res/clade_3_comM_res.tsv",
+                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_3_gubbins_res/clade_3_comM_recon.tsv",
                            phage_exclude = TRUE,
                            max_rec_length = NULL,
                            classified_snps =  clade3_snps)
@@ -100,12 +100,12 @@ clade3_boot$gg_hist$length_diff #+ scale_x_continuous(limits = c(-50,15))
 clade4_snps  <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_4_gubbins_res/clade_4_gubbins_classified_snps.csv",
                          stringsAsFactors = FALSE)
 
-tot_clade4 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_4_gubbins_res/clade_4_comM_states.tsv",
+tot_clade4 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/clade_4_comM_states_updated_names.tsv",
                            gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_4_gubbins_res/clade_4_gubbins_res.",
                            phage_starts = c(838178, 837745, 2187208, 2654953, 3107119),# 0, 3852894),
                            phage_ends = c(847561, 874758, 2227712, 2694310, 3153545),# 250362, 3875775),
                            clade_name = "Clade4",
-                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_4_gubbins_res/clade_4_comM_res.tsv",
+                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_4_gubbins_res/clade_4_comM_recon.tsv",
                            phage_exclude = TRUE,
                            max_rec_length = NULL,
                            classified_snps =  clade4_snps)
@@ -124,12 +124,12 @@ clade4_boot$gg_hist$length_diff
 clade5_snps  <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_5_gubbins_res/clade_5_gubbins_classified_snps.csv",
                          stringsAsFactors = FALSE)
 
-tot_clade5 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_5_gubbins_res/clade_5_comM_states.tsv",
+tot_clade5 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/clade_5_comM_states_updated_names.tsv",
                            gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_5_gubbins_res/clade_5_gubbins_res.",
                            phage_starts = c(2034457, 2255791, 2294007, 2372403, 3164458, 3237503, 3350995),# 955900),
                            phage_ends = c(2079596, 2273593, 2320972, 2386265, 3201623, 3254141, 3390318),# 1036661),
                            clade_name = "Clade5",
-                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_5_gubbins_res/clade_5_comM_res.tsv",
+                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_5_gubbins_res/clade_5_comM_recon.tsv",
                            phage_exclude = TRUE,
                            max_rec_length = NULL,
                            classified_snps =  clade5_snps)
@@ -147,12 +147,12 @@ clade5_boot$gg_hist$length_diff# + scale_x_continuous(limits = c(-500,0))
 clade6_snps  <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_6_gubbins_res/clade_6_gubbins_classified_snps.csv",
                          stringsAsFactors = FALSE)
 
-tot_clade6 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_6_gubbins_res/clade_6_comM_states.tsv",
+tot_clade6 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/clade_6_comM_states_updated_names.tsv",
                            gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_6_gubbins_res/clade_6_gubbins_res.",
                            phage_starts = c(161099, 1154539, 1572773),# 2293602),
                            phage_ends = c(209406, 1194090, 1591513), #2682714),
                            clade_name = "Clade6",
-                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_6_gubbins_res/clade_6_comM_res.tsv",
+                           branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/clade_6_gubbins_res/clade_6_comM_recon.tsv",
                            phage_exclude = TRUE,
                            max_rec_length = NULL,
                            classified_snps =  clade6_snps)
@@ -198,7 +198,7 @@ ggplot(data = rm_diff_boot, aes(x = diff)) +
   facet_wrap(~cluster, nrow = 2, ncol = 3, scales = "free") +
   theme_bw() +
   labs(x = expression(paste(italic("r"),"/",italic("m"), " Difference")), y = "Count")
-
+## exported 1200w, 1000h
 ## Plot the rho/m
 
 ggplot(data = rhom_diff_boot, aes(x = diff)) +
@@ -239,19 +239,20 @@ boxies <- total_clade_runs_acba(list_of_results = total_res_list)
 boxies$density_box +theme_bw()
 boxies$length_box + theme_bw()
 
+#exported both at 1200,1000
 #' # Legionella analysis 
 #' Now time to plot out the legionella results! We'll start with Clade 2
 #' 
 
-classified_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins/lp2_gubbins_classified_snps.csv",
+classified_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins_res/lp2_gubbins_res_classified_snps.csv",
                             stringsAsFactors = FALSE)
 
-tot_lp2 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins/lp2_rocrp_states.tsv",
-                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins/lp2_gubbins.",
+tot_lp2 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/lp2_rocrp_states_updated_names.tsv",
+                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins_res/lp2_gubbins_res.",
                         phage_starts = c(1073977, 2268824),
                         phage_ends = c(1197938, 2379523),
                         clade_name = "Cluster 2",
-                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins/lp2_rocrp_res.tsv",
+                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp2_gubbins_res/lp2_rocrp_recon.tsv",
                         phage_exclude = TRUE,
                         max_rec_length = NULL,
                         classified_snps =  classified_snps,
@@ -268,15 +269,15 @@ lp2_boot$gg_hist$rhom_diff
 #'## LP1 
 #'Now for the premier clade, and it's live!
 
-lp1_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins/lp1_gubbins_classified_snps.csv",
+lp1_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins_res/lp1_gubbins_res_classified_snps.csv",
                      stringsAsFactors = FALSE)
 
-tot_lp1 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins/lp1_rocrp_states.tsv",
-                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins/lp1_gubbins.",
+tot_lp1 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/lp1_rocrp_states_updated_names.tsv",
+                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins_res/lp1_gubbins_res.",
                         phage_starts = c(2251366,2747987),
                         phage_ends = c(2324375,2827323),
                         clade_name = "Cluster 1",
-                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins/lp1_rocrp_res.tsv",
+                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp1_gubbins_res/lp1_rocrp_recon.tsv",
                         phage_exclude = TRUE,
                         max_rec_length = NULL,
                         classified_snps =  lp1_snps,
@@ -295,15 +296,15 @@ lp1_boot$gg_hist$length_diff
 #' ## LP3!!
 #' Now for the final clade of legionella
 
-lp3_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins/lp3_gubbins_classified_snps.csv",
+lp3_snps <- read.csv("~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins_res/lp3_gubbins_res_classified_snps.csv",
                      stringsAsFactors = FALSE)
 
-tot_lp3 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins/lp3_rocrp_states.tsv",
-                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins/lp3_gubbins.",
+tot_lp3 <- reccy_sum_up(micro_csv = "~/Dropbox/phd/acba_legion_paper/gubbins_results/mge_states/lp3_rocrp_states_updated_names.tsv",
+                        gubb_base = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins_res/lp3_gubbins_res.",
                         phage_starts = c(2667588),
                         phage_ends = c(2688775),
                         clade_name = "Cluster 3",
-                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins/lp3_rocrp_res.tsv",
+                        branch_recons = "~/Dropbox/phd/acba_legion_paper/gubbins_results/lp3_gubbins_res/lp3_rocrp_recon.tsv",
                         phage_exclude = TRUE,
                         max_rec_length = NULL,
                         classified_snps =  lp3_snps,
@@ -391,9 +392,9 @@ ggplot(data = rm_diff_boot, aes(x = diff)) +
   theme_bw() +
   labs(x = expression(paste(italic("r/m"), " Difference")), y = "Count") +
   coord_panel_ranges(panel_ranges = list(
-    list(x = NULL, y = c(0,400)),
+    list(x = NULL, y = c(0,600)),
     list(x = NULL, y = c(0,125)),
-    list(y = c(0,60))
+    list(y = c(0,150))
   ))
 
 
@@ -412,7 +413,7 @@ ggplot(data = rhom_diff_boot, aes(x = diff)) +
   coord_panel_ranges(panel_ranges = list(
     list(y = c(0, 1500)), # GC1 
     list(y = c(0, 600)), # GC2
-    list(y = c(0, 175)))) +
+    list(y = c(0, 600)))) +
   theme_bw() +
   geom_blank(data = dummy_dat_1) +
   labs(x = expression(paste(rho, italic("/m"), " Difference")), y = "Count") 

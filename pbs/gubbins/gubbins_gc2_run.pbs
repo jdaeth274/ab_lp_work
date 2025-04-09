@@ -15,10 +15,11 @@ else
 fi
 
 #cd ~/acinetobacter_ENA_download_2021_03_23/gubbins_runs/gc2_5092_fasttree_iqtree_gubbins
+GUBB_EXC="/rds/general/user/jd2117/home/acba_legion_2024/gubbins/python/run_gubbins.py"
 
 cd ./gc2_gubbins_ft_raxml_128
 START=$SECONDS
-/usr/bin/time -v run_gubbins.py --prefix gc2_gubbins --use-time-stamp \
+/usr/bin/time -v ${GUBB_EXC} --prefix gc2_gubbins --use-time-stamp \
 --threads 128 --verbose --tree-builder raxml --first-tree-builder fasttree \
 --max-window-size 100000 --min-snps 2 \
 /rds/general/user/jd2117/home/acba_legion_2024/ska_output/gc2_5092_trimmed_ska2_aln.aln > gubbins_log 2>&1 
